@@ -1,0 +1,12 @@
+
+.DS_Store
+
+## Terraform files ##
+# Local .terraform
+**/.terraform/*
+
+.terraform.lock.hcl
+
+## Credentials ##
+
+credentials.txt
