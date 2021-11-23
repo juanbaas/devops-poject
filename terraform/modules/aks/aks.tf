@@ -15,12 +15,7 @@ resource "azurerm_kubernetes_cluster" "cluster" {
   }
 
   tags = {
-    Environment = "Production"
+    Environment = "Development"
+    Creator = "Terraform"
   }
 }
-
-/*
-data "azurerm_kubernetes_cluster" "cluster" {
-  name = "${module.azurerm_kubernetes_cluster.cluster.name}"
-  depends_on = [azurerm_kubernetes_cluster.cluster]
-}*/
