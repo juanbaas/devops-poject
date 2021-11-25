@@ -24,6 +24,13 @@ module "helm_nginx" {
   repository =  var.repository_nginx
 }
 
+module "acr" {
+  source              = "./modules/container_registry"
+  prefix              = var.prefix
+  location            = var.location
+  resource_group = var.resource_group
+}
+
 module "load_balancer" {
   source               = "./modules/load_balancer"
   public_ip_address_id = module.public_ip.id
