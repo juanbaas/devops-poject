@@ -9,7 +9,6 @@ variable "location" {
   default     = "EastUS"
   type        = string
 }
-
 /*
 variable "node_count" {
   description = "Number of nodes for the Kubernetes cluster"
@@ -32,5 +31,17 @@ variable "os_disk_size_gb" {
 variable "resource_group" {
   description = "Resource Group Name"
   default     = "team7"
+  type        = string
+}
+
+variable "repository_prometheus" {
+  description = "Path or URL to repository for chart image"
+  default     = "https://prometheus-community.github.io/helm-charts"
+  type        = string
+}
+
+variable "repository_nginx" {
+  description = "Path or URL to repository for chart image"
+  default     = "/deploy"
   type        = string
 }

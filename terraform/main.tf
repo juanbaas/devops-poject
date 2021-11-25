@@ -1,8 +1,8 @@
 
 module "resource_group" {
-  source              = "./modules/resource_group"
+  source         = "./modules/resource_group"
   resource_group = var.resource_group
-  location            = var.location
+  location       = var.location
 }
 
 module "aks" {
@@ -13,7 +13,15 @@ module "aks" {
 }
 
 module "helm" {
-  source                 = "./modules/helm"
+  source                 = "./modules/helm_release_prometheus"
+  namespace  = "monitoring"
+  repository =  var.repository_prometheus
+}
+
+module "helm_nginx" {
+  source                 = "./modules/helm_release_nginx"
+  namespace  = "nginx"
+  repository =  var.repository_nginx
 }
 
 module "load_balancer" {
@@ -30,3 +38,4 @@ module "public_ip" {
   location            = var.location
   resource_group = var.resource_group
 }
+
