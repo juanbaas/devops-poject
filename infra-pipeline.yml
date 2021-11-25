@@ -1,0 +1,54 @@
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: TerraformInstaller@0
+  displayName: 'Terraform version'
+  inputs:
+    terraformVersion: '1.0.11'
+- task: AzureCLI@2
+  displayName: Azure CLI
+  inputs:
+    addSpnToEnvironment: true
+    azureSubscription: ServConnectionName
+    scriptType: bash
+    scriptLocation: inlineScript
+    inlineScript: |
+      az --version
+      az account show
+ 
+- task: TerraformTaskV2@2
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    backendServiceArm: 'ServConnectionName'
+    backendAzureRmResourceGroupName: 'tstate'
+    backendAzureRmStorageAccountName: 'team7tstate'
+    backendAzureRmContainerName: 'tstate'
+    backendAzureRmKey: ''
+
+- task: CmdLine@2
+  inputs:
+    script: 'export TF_VAR_client_id=$(TF_VAR_client_id) TF_VAR_client_secret=$(TF_VAR_client_secret)'
+
+- task: TerraformTaskV2@2
+  displayName: TF PLAN
+  inputs:
+    provider: 'azurerm'
+    command: 'plan'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    commandOptions: '-lock=false -var="client_id=$(TF_VAR_client_id)" -var="client_secret=$(TF_VAR_client_secret)"'
+    environmentServiceNameAzureRM: 'ServConnectionName'
+    
+- task: TerraformTaskV2@2
+  displayName: TF APPLY
+  inputs:
+    provider: 'azurerm'
+    command: 'apply'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+    commandOptions: '-lock=false -auto-approve -var="client_id=$(TF_VAR_client_id)" -var="client_secret=$(TF_VAR_client_secret)"'
+    environmentServiceNameAzureRM: 'ServConnectionName'
