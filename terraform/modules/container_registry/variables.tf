@@ -12,3 +12,8 @@ variable "resource_group" {
   description = "Resource Group Name"
   type = string
 }
+
+variable "admin_enabled" {
+  description = "Admin Enabled"
+  type = string
+}

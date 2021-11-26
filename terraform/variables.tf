@@ -40,7 +40,7 @@ variable "repository_prometheus" {
   type        = string
 }
 
-variable "repository_nginx" {
+variable "repository_frontend" {
   description = "Path or URL to repository for chart image"
   default     = "/deploy"
   type        = string

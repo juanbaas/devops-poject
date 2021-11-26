@@ -1,6 +1,6 @@
-resource "helm_release" "nginx" {
+resource "helm_release" "frontend" {
   create_namespace = true
-  name             = "nginx"
+  name             = "frontend"
   repository       = "${var.repository}"
   namespace        = "${var.namespace}"
   chart            = "deploy"
